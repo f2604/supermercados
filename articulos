@@ -1,0 +1,132 @@
+paquete  supermercado ;
+
+importar  Java . awt _ imagen ;
+importar  Java . sql . conexión ;
+importar  Java . sql . conjunto de resultados ;
+importar  Java . sql . excepción SQL ;
+importar  Java . sql . declaración ;
+importar  Java . útil _ Lista de arreglos ;
+importar  javax . columpio _ icono de imagen ;
+
+
+public  class  Articulo  implementa  Comparable < Articulo >{
+     cadena  privada cod_articulo ;
+     cadena  privada nombre ;
+     acciones internas  privadas ;
+    privado  doble  precio_unidad ;
+    privado  int  porcentaje_iva ;
+     imagen privada de ImageIcon  ;
+     cadena  privada cod_categoria ;
+
+    public  Articulo ( String  cod_articulo , String  nombre , int  stock , double  precio_unidad , int  porcentaje_iva , ImageIcon  imagen , String  cod_categoria ) {
+        esto _ cod_articulo = cod_articulo ;
+        esto _ nombre = nombre ;
+        esto _ existencias = existencias ;
+        esto _ precio_unidad = precio_unidad ;
+        esto _ porcentaje_iva = porcentaje_iva ;
+        esto _ imagen = imagen ;
+        esto _ bacalao_categoria = bacalao_categoria ;
+    }
+
+    public  static  ArrayList < Articulo > cargarArticulos ( Connection  conexion , String  filtroCategoria ) throws  SQLException {
+        ArrayList < Articulo > articulos = new  ArrayList <>();
+        Declaración  declaración = conexión . createStatement ( Conjunto de resultados . TYPE_SCROLL_SENSITIVE , Conjunto de resultados . CONCUR_UPDATABLE );
+        Conjunto de resultados conjunto de  resultados = nulo ;
+        if ( filtroCategoria != null ){
+            conjunto de resultados = sentencia . ejecutarQuery ( "SELECT * FROM articulo WHERE categoria = '" + filtroCategoria + "'" );
+            sistema _ fuera _ println ( "SELECT * FROM articulo WHERE categoria='" + filtroCategoria + "'" );
+        } más {
+            conjunto de resultados = sentencia . ejecutarConsulta ( "SELECT * FROM articulo" );
+            sistema _ fuera _ println ( "SELECCIONAR *DE ARTICULO" );
+        }
+
+
+        while ( conjunto de resultados . siguiente ()){
+            String  cod_articulo = conjunto de resultados . getString ( "COD_ARTICULO" );
+            Cadena  nombre = conjunto de resultados . getString ( "NOMBRE" );
+             stock int = conjunto de resultados . getInt ( "EXISTENCIA" );
+            doble  precio_unidad = conjunto de resultados . getDouble ( "PRECIO_UNIDAD" );
+            int  porcentaje_iva = conjunto de resultados . getInt ( "PORCENTAJE_IVA" );
+            ImageIcon  imagen = new  ImageIcon ( conjunto de resultados . getBytes ( "IMAGEN" ));
+            Cadena  cod_categoria = conjunto de resultados . getString ( "CATEGORIA" );
+            Articulo  nuevoArticulo = new  Articulo ( cod_articulo , nombre , stock , precio_unidad , porcentaje_iva , imagen , cod_categoria );
+            articulos . add ( nuevoArtículo );
+        }
+        articulos . ordenar ( nulo );
+         artículos de devolución ;
+    }
+
+    public  static  Articulo  obtenerArticulo ( Connection  conexion , String  buscarCod_articulo ) throws  SQLException {
+        Articulo  nuevoArticulo = null ;
+        Declaración  declaración = conexión . createStatement ( Conjunto de resultados . TYPE_SCROLL_SENSITIVE , Conjunto de resultados . CONCUR_UPDATABLE );
+        ResultSet  conjunto de resultados = sentencia . ejecutarQuery ( "SELECT * FROM articulo WHERE COD_ARTICULO = '" + buscarCod_articulo + "'" );
+        sistema _ fuera _ println ( "SELECT * FROM articulo WHERE COD_ARTICULO = '" + buscarCod_articulo + "'" );
+        si ( conjunto de resultados . siguiente ()){
+            String  cod_articulo = conjunto de resultados . getString ( "COD_ARTICULO" );
+            Cadena  nombre = conjunto de resultados . getString ( "NOMBRE" );
+             stock int = conjunto de resultados . getInt ( "EXISTENCIA" );
+            doble  precio_unidad = conjunto de resultados . getDouble ( "PRECIO_UNIDAD" );
+            int  porcentaje_iva = conjunto de resultados . getInt ( "PORCENTAJE_IVA" );
+            ImageIcon  imagen = new  ImageIcon ( conjunto de resultados . getBytes ( "IMAGEN" ));
+            Cadena  cod_categoria = conjunto de resultados . getString ( "CATEGORIA" );
+            nuevoArticulo = new  Articulo ( cod_articulo , nombre , stock , precio_unidad , porcentaje_iva , imagen , cod_categoria );     
+        }
+        volver  nuevoArtículo ;
+    }
+    public  static  void  eliminarStockArticulo ( Connection  conexion , String  cod_articulo , int  cantidad ) throws  SQLException {
+        Declaración  declaración = conexión . createStatement ( Conjunto de resultados . TYPE_SCROLL_SENSITIVE , Conjunto de resultados . CONCUR_UPDATABLE );
+        ResultSet  conjunto de resultados = sentencia . ejecutarConsulta ( "SELECT * FROM articulo WHERE COD_ARTICULO = '" + cod_articulo + "'" );
+        sistema _ fuera _ println ( "SELECT * FROM articulo WHERE COD_ARTICULO = '" + cod_articulo + "'" );
+        si ( conjunto de resultados . siguiente ()){
+            int  stockActual = conjunto de resultados . getInt ( "EXISTENCIA" );
+            conjunto de resultados updateInt ( "STOCK" , stockActual - cantidad );
+            conjunto de resultados actualizarfila ();
+        }
+    }
+    public  void  redimensionarImagen ( int  ancho , int  alto ){
+        //http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
+        Imagen  prepararImagen = imagen . obtenerImagen ();
+        Imagen  nuevaImagen = prepararImagen . getScaledInstance ( ancho , alto , java . awt . Image . SCALE_SMOOTH );
+        imagen = new  ImageIcon ( nuevaImagen );
+    }
+    public  String  getCod_articulo () {
+        return  cod_articulo ;
+    }
+
+    public  String  getNombre () {
+        volver  nombre ;
+    }
+
+     getStock público int  () {
+        devolución  de existencias ;
+    }
+
+    public  double  getPrecio_unidad () {
+        volver  precio_unidad ;
+    }
+
+    public  int  obtenerPorcentaje_iva () {
+        volver  porcentaje_iva ;
+    }
+
+     ImageIcon  público getImagen () {
+        volver  imagen ;
+    }
+
+    public  String  getCod_categoria () {
+        volver  bacalao_categoria ;
+    }
+
+
+    @ anular
+    public  int  compareTo ( Articulo  o ) {
+        int  num1 = Entero . parseInt ( o . getCod_articulo (). subcadena ( 2 ));
+        int  num2 = Entero . parseInt ( this . getCod_articulo (). subcadena ( 2 ));
+        si ( num1 == numero2 ){
+            devolver  0 ;
+        } si no ( num2 >  num1 ) {
+            devolver  1 ;
+        } más {
+            retorno - 1 ;
+        }
+    }
