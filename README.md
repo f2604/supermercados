@@ -130,8 +130,6 @@ El proyecto cuenta con las siguientes clases:
 
 * Empleado: Contiene los mismos campos que la tabla empleado de la base de datos. Además, contiene métodos estáticos para obtener los empleados
 
-* AdministrarDescuentos: Gestiona la tabla de descuentos de la base de datos.
-
 * Descuento: Contiene los mismos campos que la tabla de descuento de la base de datos. Además, contiene métodos estáticos para obtener los descuentos.
 
 * Factura: Contiene los mismos campos que la tabla factura de la base de datos. Contiene métodos estáticos para obtener el número de factura siguiente.
