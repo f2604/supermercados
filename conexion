@@ -1,0 +1,134 @@
+paquete  supermercado ;
+importar  Java . yo _ serializable ;
+importar  Java . sql . conexión ;
+importar  Java . sql . Administrador de controladores ;
+importar  Java . útil _ propiedades ;
+importar  javax . columpio _ icono de imagen ;
+
+ Conexión de clase  pública {
+    //Empresa
+    private  String  nombreEmpresa ;
+    private  String  esloganEmpresa ;
+    privado  ImageIcon  logoEmpresa ;
+
+
+    //base de datos
+    private  String  nombreBaseDatos ;
+     cadena  privada direccionBaseDatos ;
+    privado  int  puertoBaseDatos ;
+     cadena  privada usuarioBaseDatos ;
+    private  String  contrasenaBaseDatos ;
+     conexión de conexión  privada ;
+    private  String  descripcionErrorConexion ;
+
+    public  Conexion ( String  nombreEmpresa , String  esloganEmpresa , ImageIcon  logoEmpresa , String  nombreBaseDatos , String  direccionBaseDatos , int  puertoBaseDatos , String  usuarioBaseDatos , String  contrasenaBaseDatos ) {
+        esto _ nombreEmpresa = nombreEmpresa ;
+        esto _ esloganEmpresa = esloganEmpresa ;
+        esto _ logoEmpresa = logoEmpresa ;
+        esto _ nombreBaseDatos = nombreBaseDatos ;
+        esto _ direccionBaseDatos = direccionBaseDatos ;
+        esto _ puertoBaseDatos = puertoBaseDatos ;
+        esto _ usuarioBaseDatos = usuarioBaseDatos ;
+        esto _ contrasenaBaseDatos = contrasenaBaseDatos ;
+        conectarBaseDatos ();
+    }
+
+    privado  void  conectarBaseDatos (){
+        prueba {
+            // 1.1) Cargamos el driver JDBC que vayamos a usar
+            clase _ forName ( "com.mysql.jdbc.Driver" );
+            // 1.2) Establecemos una conexión con nuestra base de datos
+            //El objeto Properties hace que salgan tildes y eñes, también podemos añadir el usuario y contraseña
+            Propiedades  datosConexion = new  Propiedades ();
+            datosConexión . poner ( "charSet" , "iso-8859-1" );
+            datosConexión . put ( "usuario" , usuarioBaseDatos );
+            datosConexión . put ( "contraseña" , contrasenaBaseDatos );
+            //conectamos con la base de datos
+            String  url = "jdbc:mysql://" + direccionBaseDatos + ":" + puertoBaseDatos + "/" + nombreBaseDatos ;
+            conexion = ( Conexión ) DriverManager . getConnection ( url , datosConexion );
+
+        } catch ( java . sql . SQLException | ClassNotFoundException  e ) {
+            descripcionErrorConexion = e . obtener mensaje ();
+        }
+    }
+    public  GuardarConexion  guardarDatosConexion (){
+        return  new  GuardarConexion ( nombreEmpresa , esloganEmpresa , logoEmpresa , nombreBaseDatos , direccionBaseDatos , puertoBaseDatos , usuarioBaseDatos , contrasenaBaseDatos );
+    }
+    public  booleano  comprobarConexion (){
+        volver  conexion != null ;
+    }
+    public  void  volverConectar (){
+        conectarBaseDatos ();
+    }
+
+     conexión  pública getConexion () {
+         conexión de retorno ;
+    }
+
+    public  String  getDescripcionErrorConexion () {
+        return  descripcionErrorConexion ;
+    }
+
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
+    }
+
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public String getEsloganEmpresa() {
+        return esloganEmpresa;
+    }
+
+    public void setEsloganEmpresa(String esloganEmpresa) {
+        this.esloganEmpresa = esloganEmpresa;
+    }
+
+    public int getPuertoBaseDatos() {
+        return puertoBaseDatos;
+    }
+
+    public void setPuertoBaseDatos(int puertoBaseDatos) {
+        this.puertoBaseDatos = puertoBaseDatos;
+    }
+
+    public String getUsuarioBaseDatos() {
+        return usuarioBaseDatos;
+    }
+
+    public void setUsuarioBaseDatos(String usuarioBaseDatos) {
+        this.usuarioBaseDatos = usuarioBaseDatos;
+    }
+
+    public String getContrasenaBaseDatos() {
+        return contrasenaBaseDatos;
+    }
+
+    public void setContrasenaBaseDatos(String contrasenaBaseDatos) {
+        this.contrasenaBaseDatos = contrasenaBaseDatos;
+    }
+
+    public ImageIcon getLogoEmpresa() {
+        return logoEmpresa;
+    }
+
+    public void setLogoEmpresa(ImageIcon logoEmpresa) {
+        this.logoEmpresa = logoEmpresa;
+    }
+
+    public String getNombreBaseDatos() {
+        return nombreBaseDatos;
+    }
+
+    public void setNombreBaseDatos(String nombreBaseDatos) {
+        this.nombreBaseDatos = nombreBaseDatos;
+    }
+
+    public String getDireccionBaseDatos() {
+        return direccionBaseDatos;
+    }
+
+    public void setDireccionBaseDatos(String direccionBaseDatos) {
+        this.direccionBaseDatos = direccionBaseDatos;
+    }
